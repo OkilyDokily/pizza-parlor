@@ -1,10 +1,17 @@
 class Pizza {
-  constructor(veggies, meats, isExtraCheese){
+  constructor(veggies, meats, isExtraCheese, size){
   this.veggies = veggies;
   this.meats = meats;
   this.isExtraCheese = isExtraCheese;
   this.size = "";
   }
+  addVeggie(veggie){
+    this.veggies.push(veggie);
+  }
+  addMeat(meat){
+    this.meats.push(meat);
+  }
+  
   addUpToppings(){
    let sizeExtra;
    if (this.size === "small"){
@@ -19,10 +26,10 @@ class Pizza {
 
    let extraCheese = 0;
    if (this.isExtraCheese){
-     extraCheese = 2.00
+     extraCheese = 2.00 + sizeExtra
    }
 
-   return veggies.length * (1.00 + sizeExtra) + meats.length * (1.50 + sizeExtra) + (extraCheese + sizeExtra);
+   return (veggies.length * (1.00 + sizeExtra)) + (meats.length * (1.50 + sizeExtra)) + extraCheese;
   }
 }
 
