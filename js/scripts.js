@@ -41,6 +41,11 @@ $(document).ready(function(){
 
 });
 
+let pizzas = [];
+function newPizza(veggies, meats, isExtraCheese, size){
+  pizza.push(new Pizza(veggies,meats,isExtraCheese,size));
+}
+
 let veggies =  
 ["pineapples",
 "jalapenos",
