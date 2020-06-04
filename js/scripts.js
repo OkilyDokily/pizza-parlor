@@ -18,22 +18,27 @@ class Pizza {
 
   addUpToppings(){
    let sizeExtra;
+   let basePrice;
    if (this.size === "small"){
      sizeExtra = 0;
+     basePrice = 10;
    }
    else if (this.size === "medium"){
      sizeExtra = .50;
+     basePrice = 15;
    }
    else {
      sizeExtra = 1.00
+     basePrice = 20;
    }
 
    let extraCheese = 0;
    if (this.isExtraCheese){
      extraCheese = 2.00 + sizeExtra
+  
    }
 
-   return (veggies.length * (1.00 + sizeExtra)) + (meats.length * (1.50 + sizeExtra)) + extraCheese;
+   return ((this.veggies.length * (1.00 + sizeExtra)) + (this.meats.length * (1.50 + sizeExtra)) + extraCheese) + basePrice);
   }
 }
 
@@ -59,9 +64,9 @@ let veggies =
 
 let meats =  
 ["italian sausage",
-"turkeybacon",
+"turkey bacon",
 "anchovies",
-"pepperioni",
+"pepperoni",
 "chicken",
 "spicy chicken",
 "shrimp"]
