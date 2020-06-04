@@ -11,7 +11,11 @@ class Pizza {
   addMeat(meat){
     this.meats.push(meat);
   }
-  
+
+  changeSize(newSize){
+    this.size = newSize;
+  }
+
   addUpToppings(){
    let sizeExtra;
    if (this.size === "small"){
