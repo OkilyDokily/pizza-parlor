@@ -3,7 +3,7 @@ class Pizza {
   this.veggies = veggies;
   this.meats = meats;
   this.isExtraCheese = isExtraCheese;
-  this.size = "";
+  this.size = size;
   }
   addVeggie(veggie){
     this.veggies.push(veggie);
@@ -41,7 +41,7 @@ class Pizza {
 
 let pizzas = [];
 function newPizza(veggies, meats, isExtraCheese, size){
-  pizza.push(new Pizza(veggies,meats,isExtraCheese,size));
+  pizzas.push(new Pizza(veggies,meats,isExtraCheese,size));
 }
 
 let veggies =  
@@ -54,16 +54,39 @@ let veggies =
 
 
 let meats =  
-["italiansausage",
+["italian sausage",
 "turkeybacon",
 "anchovies",
 "pepperioni",
 "chicken",
-"spicychicken"]
+"spicy chicken"]
 //============================================================
 //============================================================
 //============================================================
 //UI CODE=====================================================
 $(document).ready(function(){
+  veggies.forEach(function(veggie){
+    $("#veggies").append("<div><p>" + veggie +"</p><input type='checkbox' value='" + veggie+ "'>");
+  });
+  meats.forEach(function(meat){
+    $("#meats").append("<div><p>" + meat +"</p><input type='checkbox' value='" + meat+ "'>");
+  });
 
+  $("form").submit(function(e){
+    e.preventDefault();
+    let veggies = $("div#veggies input:checked").map(function(item){
+      return $(this).val()
+    }).toArray();
+    let meats  = $("div#meats input:checked").map(function(item){
+      return $(this).val()
+    }).toArray();
+    let extraCheese = false;
+    if ($("#cheese input:checked").val() === "yes"){
+      extraCheese = true;
+    }
+    let size = $("option:selected").val();
+    
+    newPizza(veggies,meats,extraCheese, size);
+  })
+ 
 });
