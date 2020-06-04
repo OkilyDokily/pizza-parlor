@@ -1,0 +1,12 @@
+body {
+background-color: aliceblue;
+}
+
+#checkout{
+  width: 33%
+  text-align: center;
+}
+
+#veggies,#meats{
+  text-transform: capitalize;
+}

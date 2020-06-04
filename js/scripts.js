@@ -45,7 +45,11 @@ function newPizza(veggies, meats, isExtraCheese, size){
 }
 
 let veggies =  
-["pineapples",
+[
+"artichoke",
+"brocolli",
+"tomatoes",
+"pineapples",
 "jalapenos",
 "corn",
 "red peppers", 
@@ -59,17 +63,18 @@ let meats =
 "anchovies",
 "pepperioni",
 "chicken",
-"spicy chicken"]
+"spicy chicken",
+"shrimp"]
 //============================================================
 //============================================================
 //============================================================
 //UI CODE=====================================================
 $(document).ready(function(){
   veggies.forEach(function(veggie){
-    $("#veggies").append("<div><p>" + veggie +"</p><input type='checkbox' value='" + veggie+ "'>");
+    $("#veggies").append("<div class='form-group'><p>" + veggie +"</p><input class='form-control' type='checkbox' value='" + veggie+ "'>");
   });
   meats.forEach(function(meat){
-    $("#meats").append("<div><p>" + meat +"</p><input type='checkbox' value='" + meat+ "'>");
+    $("#meats").append("<div class='form-group'><p>" + meat +"</p><input class='form-control' type='checkbox' value='" + meat+ "'>");
   });
 
   $("form").submit(function(e){

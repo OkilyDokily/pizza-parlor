@@ -9,26 +9,39 @@
 </head>
 <body>
   <div class="container">
+    <div class="jumbotron">
+     <h1>Cheesy's Pizza</h1>  
+    </div>
     <div class="row">
       <form action="">
-        <div id="veggies">
-
+        <div class="row">
+          <div id="veggies" class="col-xs-2">
+            <h1>Veggies:</h1>
+  
+          </div>
+          <div id="meats" class="col-xs-2">
+            <h1>Meats</h1>
+          </div>
+          <div>
+            <img src="img/pizza.jpg" alt="">
+          </div>
         </div>
-        <div id="meats">
-
+        
+        <div id="checkout" class="row" class="form-group">
+          <div id ="size">
+            <select class="form-control" name="" id="">
+              <option value="small">small</option>
+              <option value="medium">medium</option>
+              <option value="large">large</option>
+            </select> 
+          </div>
+          <div id="cheese">
+            <p>Extra Cheese?</p>
+            <input type="checkbox"  name="" id="" value="yes">
+          </div>
+          <button class="form-control">Go</button>
         </div>
-        <div id ="size">
-          <select name="" id="">
-            <option value="small">small</option>
-            <option value="medium">medium</option>
-            <option value="large">large</option>
-          </select> 
-        </div>
-        <div id="cheese">
-          <p>Extra Cheese?</p>
-          <input type="checkbox" name="" id="" value="yes">
-        </div>
-        <button>Go</button>
+       
       </form>
     </div>
     <div class="row">
