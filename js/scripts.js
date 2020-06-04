@@ -37,9 +37,7 @@ class Pizza {
   }
 }
 
-$(document).ready(function(){
 
-});
 
 let pizzas = [];
 function newPizza(veggies, meats, isExtraCheese, size){
@@ -62,4 +60,10 @@ let meats =
 "pepperioni",
 "chicken",
 "spicychicken"]
+//============================================================
+//============================================================
+//============================================================
+//UI CODE=====================================================
+$(document).ready(function(){
 
+});
