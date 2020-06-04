@@ -87,6 +87,11 @@ $(document).ready(function(){
     let size = $("option:selected").val();
     
     newPizza(veggies,meats,extraCheese, size);
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+    $("div#results").text(formatter.format(pizzas[0].addUpToppings()));
   })
  
 });
