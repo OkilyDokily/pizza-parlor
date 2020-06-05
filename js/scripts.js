@@ -38,7 +38,7 @@ class Pizza {
   
    }
 
-   return ((this.veggies.length * (1.00 + sizeExtra)) + (this.meats.length * (1.50 + sizeExtra)) + extraCheese) + basePrice);
+   return (((this.veggies.length * (1.00 + sizeExtra)) + (this.meats.length * (1.50 + sizeExtra)) + extraCheese) + basePrice);
   }
 }
 
@@ -84,9 +84,11 @@ $(document).ready(function(){
 
   $("form").submit(function(e){
     e.preventDefault();
+    //create veggies array from input
     let veggies = $("div#veggies input:checked").map(function(item){
       return $(this).val()
     }).toArray();
+    //create meats array from input
     let meats  = $("div#meats input:checked").map(function(item){
       return $(this).val()
     }).toArray();
@@ -101,7 +103,31 @@ $(document).ready(function(){
       style: 'currency',
       currency: 'USD',
     });
-    $("div#results").text(formatter.format(pizzas[0].addUpToppings()));
+   
+    $("li").remove();
+    
+    let pizzaOrdersText = ""
+    pizzas.forEach(function(item,index){
+      pizzaOrdersText += "<li id='"+ index + "'> Pizza Order: " + ( + index + 1) + "</li>";
+    })
+    $("div#orders ul").html(pizzaOrdersText)
+
+    $("div#orders ul").on("click","li",function(item){
+      let id = parseInt($(this).attr("id"));
+      
+      let pizza = pizzas[id];
+      
+      let veggieText = '';
+      pizza.veggies.forEach(function(item){
+        veggieText += "<li>" + item  + "</li>";
+      })
+      $("#veggiedetails").html(veggieText);
+      let meatText = '';
+      pizza.meats.forEach(function(item){
+        meatText += "<li>" + item  + "</li>";
+      })
+      $("#meatdetails").html(meatText);
+    });
   })
  
 });
