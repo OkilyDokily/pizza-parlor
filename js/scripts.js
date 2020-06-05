@@ -1,9 +1,16 @@
+///business logic
+//=======================
+
 class Pizza {
   constructor(veggies, meats, isExtraCheese, size){
   this.veggies = veggies;
   this.meats = meats;
   this.isExtraCheese = isExtraCheese;
   this.size = size;
+  
+  this.price = "";
+  this.basePrice = 0;
+  this.addUpToppings();
   }
   addVeggie(veggie){
     this.veggies.push(veggie);
@@ -18,27 +25,30 @@ class Pizza {
 
   addUpToppings(){
    let sizeExtra;
-   let basePrice;
-   if (this.size === "small"){
+
+   if (this.size === "Small"){
      sizeExtra = 0;
-     basePrice = 10;
+     this.basePrice = 10;
    }
-   else if (this.size === "medium"){
+   else if (this.size === "Medium"){
      sizeExtra = .50;
-     basePrice = 15;
+     this.basePrice = 15;
    }
    else {
      sizeExtra = 1.00
-     basePrice = 20;
+     this.basePrice = 20;
    }
 
    let extraCheese = 0;
    if (this.isExtraCheese){
-     extraCheese = 2.00 + sizeExtra
-  
+     extraCheese = 2.00 + sizeExtra;
    }
-
-   return (((this.veggies.length * (1.00 + sizeExtra)) + (this.meats.length * (1.50 + sizeExtra)) + extraCheese) + basePrice);
+   var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    });
+ 
+   this.price = formatter.format(((this.veggies.length * (1.00 + sizeExtra)) + (this.meats.length * (1.50 + sizeExtra)) + extraCheese) + this.basePrice);
   }
 }
 
@@ -84,50 +94,72 @@ $(document).ready(function(){
 
   $("form").submit(function(e){
     e.preventDefault();
-    //create veggies array from input
+    //create veggies array from input for pizza object
     let veggies = $("div#veggies input:checked").map(function(item){
       return $(this).val()
     }).toArray();
-    //create meats array from input
+    //create meats array from input for pizza object
     let meats  = $("div#meats input:checked").map(function(item){
       return $(this).val()
     }).toArray();
+
     let extraCheese = false;
     if ($("#cheese input:checked").val() === "yes"){
       extraCheese = true;
     }
     let size = $("option:selected").val();
-    
+    //create the Pizza Object;
     newPizza(veggies,meats,extraCheese, size);
-    var formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    });
-   
-    $("li").remove();
     
-    let pizzaOrdersText = ""
-    pizzas.forEach(function(item,index){
-      pizzaOrdersText += "<li id='"+ index + "'> Pizza Order: " + ( + index + 1) + "</li>";
-    })
-    $("div#orders ul").html(pizzaOrdersText)
+    showOrders();
+    attachEventListeners();
+    
+  })
 
+  function showOrders(){
+    let pizzaOrdersText = "<h1>Your Orders: </h1>";
+    pizzaOrdersText += "<ul>"
+    pizzas.forEach(function(item,index){
+      pizzaOrdersText += "<li id='"+ index + "'> Pizza Order- " + ( + index + 1) + ": " + item.price + "</li>";
+    })
+    pizzaOrdersText += "</ul>"
+    $("div#orders").html(pizzaOrdersText)
+  }
+
+  function attachEventListeners(){
     $("div#orders ul").on("click","li",function(item){
+      //show border only when you click on a detail
+      $("#details").css('visibility', 'visible');
+
       let id = parseInt($(this).attr("id"));
       
       let pizza = pizzas[id];
-      
-      let veggieText = '';
+      let intro = "<h1>Pizza Order: " + (id + 1) +  "</h1>"
+      //create veggie ul text
+      let veggieText = '<h3>Your veggies:</h3><ul>';
       pizza.veggies.forEach(function(item){
         veggieText += "<li>" + item  + "</li>";
       })
-      $("#veggiedetails").html(veggieText);
-      let meatText = '';
+      veggieText += '</ul>'
+
+      //create meat ul text
+      let meatText = '<h3>Your meats:</h3><ul>';
       pizza.meats.forEach(function(item){
         meatText += "<li>" + item  + "</li>";
       })
-      $("#meatdetails").html(meatText);
+      meatText +='</ul>'
+
+      //create other info text - extra cheese base price pizza size etc.
+      let extratext = '<p>'+ pizza.size + " pizza.";
+      if(pizza.isExtraCheese === true){
+        extratext += "- with extra cheese!"
+      }
+      extratext += "<p>Base price for a " + pizza.size.toLowerCase() + " pizza is " + pizza.basePrice+  " dollars.</p>"
+      
+     
+      extratext += '</p>'
+      $("#details").html(intro + extratext + veggieText + meatText);
     });
-  })
- 
+  }
+
 });

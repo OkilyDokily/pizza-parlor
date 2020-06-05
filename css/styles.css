@@ -10,3 +10,17 @@ background-color: aliceblue;
 #veggies,#meats{
   text-transform: capitalize;
 }
+
+#details {
+  visibility: hidden;
+  margin-top: 15px;
+  border: solid blue 2px;
+}
+
+button{
+  margin-bottom: 20px;
+}
+
+#meats h1, #veggies h1{
+  margin-top: 0;
+}
