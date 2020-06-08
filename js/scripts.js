@@ -2,57 +2,31 @@
 //=======================
 
 class Pizza {
-  constructor(veggies, meats, isExtraCheese, size){
-  this.veggies = veggies;
-  this.meats = meats;
-  this.isExtraCheese = isExtraCheese;
-  this.size = size;
+  static prices = {"Small": [10,0], "Medium": [15,.50],"Large":[20,1.00] }
   
-  this.price = "";
-  this.basePrice = 0;
-  this.addUpToppings();
-  }
-  addVeggie(veggie){
-    this.veggies.push(veggie);
-  }
-  addMeat(meat){
-    this.meats.push(meat);
-  }
-
-  changeSize(newSize){
-    this.size = newSize;
+  constructor(veggies, meats, isExtraCheese, size){
+    //inputted properties
+    this.veggies = veggies;
+    this.meats = meats;
+    this.isExtraCheese = isExtraCheese ? 2.00 : 0;
+    this.size = size;
+    //calculated properties
+    this.basePrice;
+    this.sizeExtra;
+    [this.basePrice ,this.sizeExtra] = Pizza.prices[this.size];
+    this.price = this.addUpToppings();
   }
 
   addUpToppings(){
-   let sizeExtra;
-
-   if (this.size === "Small"){
-     sizeExtra = 0;
-     this.basePrice = 10;
-   }
-   else if (this.size === "Medium"){
-     sizeExtra = .50;
-     this.basePrice = 15;
-   }
-   else {
-     sizeExtra = 1.00
-     this.basePrice = 20;
-   }
-
-   let extraCheese = 0;
-   if (this.isExtraCheese){
-     extraCheese = 2.00 + sizeExtra;
-   }
+   //autoformat the currency with builtin currency object
    var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     });
  
-   this.price = formatter.format(((this.veggies.length * (1.00 + sizeExtra)) + (this.meats.length * (1.50 + sizeExtra)) + extraCheese) + this.basePrice);
+   return formatter.format(((this.veggies.length * (1.00 + this.sizeExtra)) + (this.meats.length * (1.50 + this.sizeExtra)) + this.isExtraCheese) + this.basePrice);
   }
 }
-
-
 
 let pizzas = [];
 function newPizza(veggies, meats, isExtraCheese, size){
@@ -85,20 +59,23 @@ let meats =
 //============================================================
 //UI CODE=====================================================
 $(document).ready(function(){
+  //show all veggies on page load include checkbox for selection
   veggies.forEach(function(veggie){
     $("#veggies").append("<div class='form-group'><p>" + veggie +"</p><input class='form-control' type='checkbox' value='" + veggie+ "'>");
   });
+  //show all meats on page load includce checkbox on selection
   meats.forEach(function(meat){
     $("#meats").append("<div class='form-group'><p>" + meat +"</p><input class='form-control' type='checkbox' value='" + meat+ "'>");
   });
 
   $("form").submit(function(e){
     e.preventDefault();
-    //create veggies array from input for pizza object
+    removeChecks();
+    //create veggies array from checked box input for pizza object
     let veggies = $("div#veggies input:checked").map(function(item){
       return $(this).val()
     }).toArray();
-    //create meats array from input for pizza object
+    //create meats array from checked box input for pizza object
     let meats  = $("div#meats input:checked").map(function(item){
       return $(this).val()
     }).toArray();
@@ -110,13 +87,14 @@ $(document).ready(function(){
     let size = $("option:selected").val();
     //create the Pizza Object;
     newPizza(veggies,meats,extraCheese, size);
-    
+    //create a list of each pizza order
     showOrders();
-    attachEventListeners();
+    attachEventListenersToPizzaOrders();
     
   })
 
   function showOrders(){
+    //create a list of each pizza order
     let pizzaOrdersText = "<h1>Your Orders: </h1>";
     pizzaOrdersText += "<ul>"
     pizzas.forEach(function(item,index){
@@ -126,7 +104,8 @@ $(document).ready(function(){
     $("div#orders").html(pizzaOrdersText)
   }
 
-  function attachEventListeners(){
+  function attachEventListenersToPizzaOrders(){
+    //on each pizza order create a blue bordered itemization when clicked on
     $("div#orders ul").on("click","li",function(item){
       //show border only when you click on a detail
       $("#details").css('visibility', 'visible');
@@ -160,6 +139,10 @@ $(document).ready(function(){
       extratext += '</p>'
       $("#details").html(intro + extratext + veggieText + meatText);
     });
+  }
+
+  function removeChecks(){
+    $("input:checked").prop("checked", false);
   }
 
 });
