@@ -3,12 +3,13 @@
 
 class Pizza {
   static prices = {"Small": [10,0], "Medium": [15,.50],"Large":[20,1.00] }
-  
+  static veggyList =  ["artichoke","brocolli","tomatoes", "pineapples","jalapenos","corn","red peppers", "onions", "olives"];
+  static meatList =  ["italian sausage","turkey bacon", "anchovies","pepperoni", "chicken","spicy chicken", "shrimp"]
   constructor(veggies, meats, isExtraCheese, size){
     //inputted properties
     this.veggies = veggies;
     this.meats = meats;
-    this.isExtraCheese = isExtraCheese ? 2.00 : 0;
+    this.isExtraCheese = (isExtraCheese ? 2.00 : 0);
     this.size = size;
     //calculated properties
     this.basePrice;
@@ -27,50 +28,29 @@ class Pizza {
    return formatter.format(((this.veggies.length * (1.00 + this.sizeExtra)) + (this.meats.length * (1.50 + this.sizeExtra)) + this.isExtraCheese) + this.basePrice);
   }
 }
-
+//create a list of each pizza order/object
 let pizzas = [];
 function newPizza(veggies, meats, isExtraCheese, size){
   pizzas.push(new Pizza(veggies,meats,isExtraCheese,size));
 }
 
-let veggies =  
-[
-"artichoke",
-"brocolli",
-"tomatoes",
-"pineapples",
-"jalapenos",
-"corn",
-"red peppers", 
-"onions", 
-"olives"]
-
-
-let meats =  
-["italian sausage",
-"turkey bacon",
-"anchovies",
-"pepperoni",
-"chicken",
-"spicy chicken",
-"shrimp"]
 //============================================================
 //============================================================
 //============================================================
 //UI CODE=====================================================
 $(document).ready(function(){
   //show all veggies on page load include checkbox for selection
-  veggies.forEach(function(veggie){
+  Pizza.veggyList.forEach(function(veggie){
     $("#veggies").append("<div class='form-group'><p>" + veggie +"</p><input class='form-control' type='checkbox' value='" + veggie+ "'>");
   });
   //show all meats on page load includce checkbox on selection
-  meats.forEach(function(meat){
+  Pizza.meatList.forEach(function(meat){
     $("#meats").append("<div class='form-group'><p>" + meat +"</p><input class='form-control' type='checkbox' value='" + meat+ "'>");
   });
 
   $("form").submit(function(e){
     e.preventDefault();
-    removeChecks();
+    
     //create veggies array from checked box input for pizza object
     let veggies = $("div#veggies input:checked").map(function(item){
       return $(this).val()
@@ -90,7 +70,7 @@ $(document).ready(function(){
     //create a list of each pizza order
     showOrders();
     attachEventListenersToPizzaOrders();
-    
+    removeChecks();
   })
 
   function showOrders(){
@@ -130,7 +110,7 @@ $(document).ready(function(){
 
       //create other info text - extra cheese base price pizza size etc.
       let extratext = '<p>'+ pizza.size + " pizza.";
-      if(pizza.isExtraCheese === true){
+      if(pizza.isExtraCheese === 2){
         extratext += "- with extra cheese!"
       }
       extratext += "<p>Base price for a " + pizza.size.toLowerCase() + " pizza is " + pizza.basePrice+  " dollars.</p>"
